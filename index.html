@@ -1,1 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NASA Space Explorer App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="overlay"></div>
+    <nav class="navbar">
+      <div class="brand">
+        <span class="brand-badge">NASA</span>
+        <span class="brand-text">Space Explorer</span>
+      </div>
+    </nav>
 
+    <section class="hero-content">
+      <h1>Explore NASA's Astronomy Picture of the Day</h1>
+      <p>
+        Search a date range and discover breathtaking space images, videos,
+        and stories from NASA’s APOD archive.
+      </p>
+    </section>
+  </header>
+
+  <main class="container">
+    <section class="controls card-panel">
+      <h2>Choose Your Date Range</h2>
+      <p class="helper-text">
+        Select a start and end date, then click the button to load NASA APOD entries.
+      </p>
+
+      <div class="input-row">
+        <div class="input-group">
+          <label for="startDate">Start Date</label>
+          <input type="date" id="startDate" />
+        </div>
+
+        <div class="input-group">
+          <label for="endDate">End Date</label>
+          <input type="date" id="endDate" />
+        </div>
+
+        <button id="getImagesBtn" type="button">Get Space Images</button>
+      </div>
+
+      <p id="errorMessage" class="error-message"></p>
+    </section>
+
+    <section class="fact-box card-panel">
+      <h2>🌌 Did You Know?</h2>
+      <p id="spaceFact"></p>
+    </section>
+
+    <section class="gallery-section">
+      <div class="section-heading">
+        <h2>Space Gallery</h2>
+        <p>Click any card to view details in a modal.</p>
+      </div>
+
+      <div id="loadingMessage" class="loading-message hidden">
+        🚀 Loading space photos...
+      </div>
+
+      <div id="gallery" class="gallery">
+        <div class="placeholder">
+          Your gallery will appear here after you choose a date range.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="modal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="close-btn" id="closeModalBtn" aria-label="Close modal">&times;</button>
+
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>Built with HTML, CSS, JavaScript, and NASA APOD data.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
