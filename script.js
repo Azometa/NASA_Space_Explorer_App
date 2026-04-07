@@ -1,4 +1,5 @@
-const apiKey = "PASTE_YOUR_NASA_API_KEY_HERE";
+const apiKey = "DEMO_KEY";
+
 const gallery = document.getElementById("gallery");
 const button = document.getElementById("getImages");
 const loading = document.getElementById("loading");
@@ -17,7 +18,9 @@ const facts = [
   "Olympus Mons on Mars is the tallest volcano in the solar system.",
   "Light from the Sun takes about 8 minutes to reach Earth.",
   "There are more stars in the universe than grains of sand on Earth.",
-  "Saturn could float in water because it is mostly made of gas."
+  "Saturn could float in water because it is mostly made of gas.",
+  "The International Space Station circles Earth about every 90 minutes.",
+  "Some APOD entries are videos, not just images."
 ];
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -47,19 +50,8 @@ function setDefaultDates() {
 
   start.setDate(end.getDate() - 8);
 
-  const formattedEnd = formatDate(end);
-  const formattedStart = formatDate(start);
-
-  const startDateInput = document.getElementById("startDate");
-  const endDateInput = document.getElementById("endDate");
-
-  startDateInput.value = formattedStart;
-  endDateInput.value = formattedEnd;
-
-  startDateInput.min = "1995-06-16";
-  endDateInput.min = "1995-06-16";
-  startDateInput.max = formattedEnd;
-  endDateInput.max = formattedEnd;
+  document.getElementById("startDate").value = formatDate(start);
+  document.getElementById("endDate").value = formatDate(end);
 }
 
 function formatDate(date) {
@@ -80,14 +72,17 @@ async function fetchImages() {
 
   const start = new Date(startDate);
   const end = new Date(endDate);
-  const diffTime = end - start;
-  const diffDays = diffTime / (1000 * 60 * 60 * 24) + 1;
+  const diffDays = (end - start) / (1000 * 60 * 60 * 24) + 1;
 
   if (diffDays !== 9) {
     errorMessage.textContent = "Please select exactly 9 consecutive days.";
     gallery.innerHTML = `
-      <div class="placeholder">
-        The selected range must be exactly 9 consecutive days.
+      <div class="placeholder glass-card">
+        <div class="placeholder-content">
+          <div class="placeholder-planet"></div>
+          <h3>Invalid date range</h3>
+          <p>Your selected range must be exactly 9 consecutive days.</p>
+        </div>
       </div>
     `;
     return;
@@ -117,12 +112,15 @@ async function fetchImages() {
     renderGallery(sortedData);
   } catch (error) {
     console.error("NASA APOD fetch error:", error);
-    errorMessage.textContent =
-      "There was a problem loading the NASA data. Check your API key and date range, then try again.";
+    errorMessage.textContent = "There was a problem loading the NASA data. Please try again.";
 
     gallery.innerHTML = `
-      <div class="placeholder">
-        Sorry, the gallery could not be loaded right now.
+      <div class="placeholder glass-card">
+        <div class="placeholder-content">
+          <div class="placeholder-planet"></div>
+          <h3>Gallery could not be loaded</h3>
+          <p>Please try again in a moment.</p>
+        </div>
       </div>
     `;
   } finally {
@@ -140,7 +138,7 @@ function renderGallery(items) {
     const preview =
       item.media_type === "image"
         ? `<img src="${item.url}" alt="${escapeHtml(item.title)}">`
-        : `<div class="video-preview">🎬 Video Entry Available</div>`;
+        : `<div class="video-preview">🎬 NASA Video Entry</div>`;
 
     card.innerHTML = `
       ${preview}
@@ -163,18 +161,16 @@ function openModal(item) {
       : `
         <div class="video-message">
           <p><strong>This APOD entry is a video.</strong></p>
-          <p>Use the link below to watch the original video.</p>
-          <a class="video-link" href="${item.url}" target="_blank" rel="noopener noreferrer">
-            Watch Video
-          </a>
+          <p>Use the link below to watch the original NASA video entry.</p>
+          <a class="video-link" href="${item.url}" target="_blank" rel="noopener noreferrer">Watch Video</a>
         </div>
       `;
 
   modalBody.innerHTML = `
-    <h2>${escapeHtml(item.title)}</h2>
+    <h2 class="modal-title">${escapeHtml(item.title)}</h2>
     <p class="modal-date">${item.date}</p>
     ${mediaSection}
-    <p>${escapeHtml(item.explanation || "No explanation available.")}</p>
+    <p class="modal-description">${escapeHtml(item.explanation || "No explanation available.")}</p>
   `;
 
   modal.classList.remove("hidden");
