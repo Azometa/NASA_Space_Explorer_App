@@ -43,6 +43,13 @@ function showRandomFact() {
   document.getElementById("factBox").textContent = facts[randomIndex];
 }
 
+function formatDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 function setDefaultDates() {
   const today = new Date();
   const end = new Date(today);
@@ -50,12 +57,20 @@ function setDefaultDates() {
 
   start.setDate(end.getDate() - 8);
 
-  document.getElementById("startDate").value = formatDate(start);
-  document.getElementById("endDate").value = formatDate(end);
-}
+  const startInput = document.getElementById("startDate");
+  const endInput = document.getElementById("endDate");
 
-function formatDate(date) {
-  return date.toISOString().split("T")[0];
+  const todayFormatted = formatDate(end);
+  const startFormatted = formatDate(start);
+
+  startInput.value = startFormatted;
+  endInput.value = todayFormatted;
+
+  startInput.min = "1995-06-16";
+  endInput.min = "1995-06-16";
+
+  startInput.max = todayFormatted;
+  endInput.max = todayFormatted;
 }
 
 async function fetchImages() {
@@ -72,7 +87,15 @@ async function fetchImages() {
 
   const start = new Date(startDate);
   const end = new Date(endDate);
+  const today = new Date();
+  const todayFormatted = formatDate(today);
+
   const diffDays = (end - start) / (1000 * 60 * 60 * 24) + 1;
+
+  if (endDate > todayFormatted) {
+    errorMessage.textContent = "End date cannot be in the future.";
+    return;
+  }
 
   if (diffDays !== 9) {
     errorMessage.textContent = "Please select exactly 9 consecutive days.";
@@ -101,8 +124,8 @@ async function fetchImages() {
 
     const data = await response.json();
 
-    if (!Array.isArray(data) || data.length !== 9) {
-      throw new Error("The API did not return exactly 9 items.");
+    if (!Array.isArray(data) || data.length === 0) {
+      throw new Error("No APOD data returned.");
     }
 
     const sortedData = [...data].sort(
