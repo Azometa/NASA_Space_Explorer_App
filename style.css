@@ -1,79 +1,289 @@
+:root {
+  --nasa-blue: #0B3D91;
+  --nasa-red: #FC3D21;
+  --nasa-light-blue: #4FA3FF;
+  --bg-dark: #020814;
+  --bg-mid: #07152b;
+  --bg-3: #0f2240;
+  --text-main: #ffffff;
+  --text-soft: #cddcf5;
+  --card: rgba(13, 27, 51, 0.62);
+  --border: rgba(255, 255, 255, 0.12);
+  --shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+
 * {
   box-sizing: border-box;
 }
 
-body {
+html {
+  scroll-behavior: smooth;
+}
+
+html, body {
   margin: 0;
+  padding: 0;
+}
+
+body {
   font-family: Arial, Helvetica, sans-serif;
-  background: linear-gradient(180deg, #07111f 0%, #0b1d33 100%);
-  color: #ffffff;
+  color: var(--text-main);
   min-height: 100vh;
+  background:
+    radial-gradient(circle at top, rgba(79, 163, 255, 0.18), transparent 20%),
+    radial-gradient(circle at 85% 15%, rgba(252, 61, 33, 0.12), transparent 18%),
+    linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-mid) 45%, var(--bg-3) 100%);
+  overflow-x: hidden;
+}
+
+.stars,
+.twinkle,
+.shooting-stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+.stars,
+.twinkle {
+  z-index: 0;
+}
+
+.shooting-stars {
+  z-index: 1;
+  overflow: hidden;
+}
+
+.stars {
+  background-image:
+    radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,0.9), transparent),
+    radial-gradient(2px 2px at 120px 80px, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1.5px 1.5px at 230px 190px, rgba(255,255,255,0.85), transparent),
+    radial-gradient(2px 2px at 340px 120px, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1.5px 1.5px at 440px 40px, rgba(255,255,255,0.9), transparent),
+    radial-gradient(2px 2px at 540px 200px, rgba(255,255,255,0.65), transparent),
+    radial-gradient(1.5px 1.5px at 700px 130px, rgba(255,255,255,0.95), transparent),
+    radial-gradient(2px 2px at 820px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1.5px 1.5px at 930px 210px, rgba(255,255,255,0.75), transparent),
+    radial-gradient(2px 2px at 1080px 140px, rgba(255,255,255,0.7), transparent);
+  background-repeat: repeat;
+  background-size: 1200px 260px;
+  opacity: 0.55;
+}
+
+.twinkle {
+  animation: twinkle 5s linear infinite;
+  background-image:
+    radial-gradient(2px 2px at 15% 20%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(2px 2px at 70% 30%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2px 2px at 45% 70%, rgba(255,255,255,0.45), transparent),
+    radial-gradient(2px 2px at 85% 80%, rgba(255,255,255,0.5), transparent);
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.5; }
+}
+
+.shooting-stars span {
+  position: absolute;
+  top: -100px;
+  width: 2px;
+  height: 120px;
+  background: linear-gradient(white, rgba(255,255,255,0));
+  border-radius: 50%;
+  opacity: 0;
+  transform: rotate(45deg);
+  box-shadow:
+    0 0 6px white,
+    0 0 12px rgba(255,255,255,0.8),
+    0 0 20px rgba(255,255,255,0.6);
+  animation: shooting 8s linear infinite;
+}
+
+.shooting-stars span:nth-child(1) {
+  left: 15%;
+  animation-delay: 0s;
+}
+.shooting-stars span:nth-child(2) {
+  left: 35%;
+  animation-delay: 2s;
+}
+.shooting-stars span:nth-child(3) {
+  left: 55%;
+  animation-delay: 4s;
+}
+.shooting-stars span:nth-child(4) {
+  left: 75%;
+  animation-delay: 1.5s;
+}
+.shooting-stars span:nth-child(5) {
+  left: 90%;
+  animation-delay: 3.5s;
+}
+
+@keyframes shooting {
+  0% {
+    transform: translate(0, 0) rotate(45deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-400px, 800px) rotate(45deg);
+    opacity: 0;
+  }
 }
 
 .hero {
-  background: linear-gradient(135deg, #04101f 0%, #0b2545 60%, #12335f 100%);
-  border-bottom: 3px solid #fc3d21;
-  padding: 40px 20px;
+  position: relative;
+  min-height: 520px;
+  background:
+    linear-gradient(rgba(2, 8, 18, 0.45), rgba(2, 8, 18, 0.78)),
+    url("https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e001861/GSFC_20171208_Archive_e001861~orig.jpg") center/cover no-repeat;
+  border-bottom: 2px solid rgba(252, 61, 33, 0.8);
+  overflow: hidden;
+  z-index: 2;
 }
 
-.hero-inner {
-  max-width: 1100px;
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 25%, rgba(255,255,255,0.12), transparent 15%),
+    radial-gradient(circle at 70% 20%, rgba(47,123,255,0.22), transparent 25%),
+    linear-gradient(to bottom, rgba(5, 11, 23, 0.1), rgba(5, 11, 23, 0.55));
+}
+
+.topbar,
+.hero-content,
+.container,
+.footer {
+  position: relative;
+  z-index: 3;
+  max-width: 1180px;
   margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
-.brand-row {
+.topbar {
+  padding-top: 24px;
+}
+
+.brand {
   display: flex;
   align-items: center;
   gap: 16px;
   flex-wrap: wrap;
 }
 
-.nasa-logo {
-  background: #fc3d21;
-  color: white;
-  font-weight: bold;
-  letter-spacing: 1px;
-  padding: 10px 16px;
-  border-radius: 999px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.hero h1 {
+.brand-copy h1 {
   margin: 0;
-  font-size: 2.2rem;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
 }
 
-.hero-text {
-  margin-top: 14px;
-  max-width: 700px;
-  color: #d7e7ff;
-  line-height: 1.6;
+.brand-copy p {
+  margin: 4px 0 0;
+  color: var(--text-soft);
+}
+
+.brand-kicker {
+  margin: 0 0 8px !important;
+  color: #9ec2ff !important;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.hero-content {
+  padding-top: 56px;
+  padding-bottom: 100px;
+}
+
+.hero-panel {
+  max-width: 760px;
+  padding: 34px;
+  border-radius: 28px;
+  background: rgba(6, 18, 37, 0.46);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: var(--shadow);
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  display: inline-block;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: #9ec2ff;
+}
+
+.hero-panel h2 {
+  margin: 0 0 14px;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.08;
+}
+
+.hero-description {
+  margin: 0 0 24px;
+  color: #e4eeff;
+  line-height: 1.75;
+  font-size: 1.04rem;
+  max-width: 640px;
+}
+
+.hero-button {
+  display: inline-block;
+  text-decoration: none;
+  color: white;
+  font-weight: 700;
+  background: linear-gradient(135deg, #0B3D91, #2f7bff);
+  padding: 14px 22px;
+  border-radius: 999px;
+  box-shadow: 0 10px 26px rgba(47, 123, 255, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hero-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(47, 123, 255, 0.45);
 }
 
 .container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 24px 20px 40px;
+  margin-top: -56px;
+  padding-bottom: 50px;
+  z-index: 3;
+}
+
+.glass-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  backdrop-filter: blur(14px);
+  box-shadow: var(--shadow);
 }
 
 .controls-section,
 .fact-section {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 16px;
-  padding: 22px;
-  margin-bottom: 22px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  padding: 26px;
+  margin-bottom: 24px;
 }
 
-.controls-section h2,
-.fact-section h2 {
+.section-title h3,
+.fact-section h3 {
   margin-top: 0;
+  margin-bottom: 6px;
+  font-size: 1.4rem;
 }
 
-.instructions {
-  color: #d7e7ff;
-  margin-bottom: 18px;
+.section-title p {
+  margin: 0 0 18px;
+  color: var(--text-soft);
 }
 
 .controls {
@@ -90,49 +300,73 @@ body {
 }
 
 label {
-  font-weight: bold;
+  font-weight: 700;
 }
 
 input[type="date"] {
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #7aa7d9;
-  background: #ffffff;
-  color: #111111;
+  padding: 13px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(166, 196, 255, 0.75);
+  background: rgba(255,255,255,0.96);
+  color: #111;
   font-size: 1rem;
 }
 
+.button-wrap {
+  display: flex;
+}
+
 button {
-  padding: 12px 18px;
-  background: #0b3d91;
-  color: white;
+  width: 100%;
   border: none;
-  border-radius: 10px;
+  border-radius: 14px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, #0f4cc0, #2b83ff);
+  color: white;
+  font-weight: 700;
   cursor: pointer;
-  font-weight: bold;
-  transition: transform 0.2s ease, background 0.2s ease;
+  box-shadow: 0 12px 26px rgba(43, 131, 255, 0.35);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease;
 }
 
 button:hover {
-  background: #1557c0;
   transform: translateY(-2px);
+  opacity: 0.98;
+  box-shadow: 0 16px 32px rgba(43, 131, 255, 0.45);
 }
 
 .error-message {
-  margin-top: 16px;
-  color: #ffd1d1;
-  font-weight: bold;
+  margin: 14px 0 0;
+  color: #ffd0d0;
+  font-weight: 700;
 }
 
 .fact-section {
-  border-left: 6px solid #fc3d21;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 20px;
+  align-items: center;
+  border-left: 4px solid rgba(252, 61, 33, 0.85);
+}
+
+.fact-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  color: #a8c8ff;
+  margin-bottom: 8px;
+}
+
+.fact-left h3 {
+  margin: 0;
 }
 
 #factBox {
   margin: 0;
-  color: #f7fbff;
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 1.02rem;
+  line-height: 1.8;
+  color: #f8fbff;
 }
 
 .gallery-section {
@@ -140,13 +374,13 @@ button:hover {
 }
 
 .loading {
-  background: rgba(252, 61, 33, 0.14);
-  color: #ffd8cf;
-  border: 1px solid rgba(252, 61, 33, 0.45);
-  padding: 14px 16px;
-  border-radius: 12px;
+  background: rgba(252, 61, 33, 0.12);
+  border: 1px solid rgba(252, 61, 33, 0.35);
+  color: #ffd7cf;
+  padding: 15px 18px;
+  border-radius: 16px;
   margin-bottom: 20px;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .hidden {
@@ -155,78 +389,124 @@ button:hover {
 
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+  gap: 24px;
 }
 
 .placeholder {
   grid-column: 1 / -1;
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+.placeholder-content {
   text-align: center;
-  padding: 35px 20px;
-  border: 2px dashed rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  color: #d7e7ff;
-  background: rgba(255, 255, 255, 0.04);
+  max-width: 520px;
+}
+
+.placeholder-content h3 {
+  margin: 16px 0 10px;
+}
+
+.placeholder-content p {
+  margin: 0;
+  color: var(--text-soft);
+  line-height: 1.7;
+}
+
+.placeholder-planet {
+  width: 92px;
+  height: 92px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, #ffe8a6, #ff8a47 42%, #9d3d2c 68%, #4b1c2b 100%);
+  box-shadow:
+    0 0 30px rgba(255, 145, 87, 0.35),
+    inset -18px -10px 30px rgba(0,0,0,0.25);
+  position: relative;
+}
+
+.placeholder-planet::after {
+  content: "";
+  position: absolute;
+  width: 140px;
+  height: 34px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-12deg);
+  border: 3px solid rgba(188, 214, 255, 0.6);
+  border-radius: 50%;
 }
 
 .card {
-  background: #ffffff;
-  color: #111111;
-  border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28);
+  border-radius: 22px;
+  background: rgba(255,255,255,0.98);
+  color: #121212;
+  box-shadow: 0 18px 36px rgba(0,0,0,0.28);
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Hover Zoom LevelUp */
 .card:hover {
-  transform: scale(1.04);
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.34);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 24px 42px rgba(0,0,0,0.36);
 }
 
 .card img,
 .card .video-preview {
   width: 100%;
-  height: 190px;
+  height: 220px;
   display: block;
 }
 
 .card img {
   object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.card:hover img {
+  transform: scale(1.1);
 }
 
 .video-preview {
-  background: linear-gradient(135deg, #0b3d91, #12335f);
-  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 18px;
   text-align: center;
-  font-weight: bold;
+  padding: 20px;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  background:
+    linear-gradient(rgba(5, 12, 24, 0.42), rgba(5, 12, 24, 0.65)),
+    url("https://images-assets.nasa.gov/image/PIA12235/PIA12235~orig.jpg") center/cover no-repeat;
 }
 
 .card-body {
-  padding: 14px;
+  padding: 18px;
 }
 
 .card-body h3 {
-  margin: 0 0 10px 0;
-  font-size: 1rem;
-  line-height: 1.4;
+  margin: 0 0 10px;
+  font-size: 1.02rem;
+  line-height: 1.45;
 }
 
 .card-body p {
   margin: 0;
-  color: #444444;
+  color: #444;
 }
 
 .card-type {
-  margin-top: 8px !important;
-  font-size: 0.9rem;
-  color: #0b3d91 !important;
-  font-weight: bold;
+  margin-top: 10px !important;
+  color: #0d56d8 !important;
+  font-weight: 700;
+  font-size: 0.92rem;
 }
 
 .modal {
@@ -238,69 +518,72 @@ button:hover {
 .modal-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0,0,0,0.78);
+  backdrop-filter: blur(3px);
 }
 
 .modal-content {
   position: relative;
   z-index: 2;
-  background: #ffffff;
-  color: #111111;
-  width: min(900px, 92%);
+  width: min(960px, 92%);
   max-height: 88vh;
   overflow-y: auto;
   margin: 5vh auto;
-  padding: 24px;
-  border-radius: 18px;
+  padding: 28px;
+  border-radius: 26px;
+  background: rgba(255,255,255,0.98);
+  color: #111;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.45);
 }
 
 .close-button {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  background: #fc3d21;
-  border: none;
-  color: white;
-  width: 42px;
-  height: 42px;
+  top: 14px;
+  right: 14px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
-  font-size: 1.4rem;
+  border: none;
+  background: linear-gradient(135deg, #ff5e44, var(--nasa-red));
+  color: white;
+  font-size: 1.5rem;
   cursor: pointer;
 }
 
-.modal-content h2 {
+.modal-title {
   margin-top: 0;
-  padding-right: 50px;
+  padding-right: 54px;
+  line-height: 1.25;
 }
 
 .modal-date {
-  color: #0b3d91;
-  font-weight: bold;
+  font-weight: 700;
+  color: #0c54d4;
   margin-bottom: 16px;
 }
 
 .modal-image {
   width: 100%;
-  max-height: 520px;
+  max-height: 540px;
   object-fit: contain;
-  background: #f2f2f2;
-  border-radius: 12px;
+  background: #f2f5f9;
+  border-radius: 18px;
   margin-bottom: 18px;
 }
 
 .video-message {
-  background: #eef4ff;
-  border-left: 5px solid #0b3d91;
-  padding: 16px;
-  border-radius: 10px;
+  background: linear-gradient(135deg, #eef4ff, #f7faff);
+  border-left: 5px solid #0c54d4;
+  padding: 18px;
+  border-radius: 14px;
   margin-bottom: 18px;
 }
 
 .video-link {
   display: inline-block;
   margin-top: 10px;
-  color: #0b3d91;
-  font-weight: bold;
+  font-weight: 700;
+  color: #0c54d4;
   text-decoration: none;
 }
 
@@ -308,22 +591,55 @@ button:hover {
   text-decoration: underline;
 }
 
-.footer {
-  text-align: center;
-  padding: 20px;
-  color: #d7e7ff;
+.modal-description {
+  line-height: 1.75;
+  color: #222;
 }
 
-@media (max-width: 768px) {
+.footer {
+  text-align: center;
+  padding-top: 8px;
+  padding-bottom: 34px;
+  color: var(--text-soft);
+}
+
+.footer-note {
+  margin-top: 6px;
+  font-size: 0.92rem;
+}
+
+@media (max-width: 900px) {
   .controls {
     grid-template-columns: 1fr;
   }
 
-  .hero h1 {
-    font-size: 1.8rem;
+  .fact-section {
+    grid-template-columns: 1fr;
   }
 
-  button {
-    width: 100%;
+  .hero-panel {
+    padding: 26px;
+  }
+}
+
+@media (max-width: 600px) {
+  .topbar,
+  .hero-content,
+  .container,
+  .footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .brand-copy h1 {
+    font-size: 1.6rem;
+  }
+
+  .hero-panel h2 {
+    font-size: 2rem;
+  }
+
+  .modal-content {
+    padding: 20px;
   }
 }
